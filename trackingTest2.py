@@ -1,6 +1,18 @@
 import cv2
 import random
 from cv2 import TrackerCSRT_create
+import tkinter as tk
+from tkinter import filedialog
+
+# Create a Tkinter root window
+root = tk.Tk()
+root.withdraw()
+
+# Use file dialog box to select video file
+file_path = filedialog.askopenfilename(filetypes=[("Video Files", "*.mp4;*.avi;*.mkv")])
+
+# Open the video file
+video = cv2.VideoCapture(file_path)
 
 drawing = False
 roi_points = []
@@ -30,7 +42,6 @@ def mouse_callback(event, x, y, flags, param):
             trackers.append(second_tracker)
             current_box = None
 
-video = cv2.VideoCapture("C:/Users/Assif/Desktop/Workspace/python/idf/tracking-test/testvideo.mp4")
 tracker = cv2.TrackerCSRT_create()
 trackers = [tracker]
 ret, frame = video.read()
@@ -47,46 +58,11 @@ ret = tracker.init(frame, roi)
 cv2.namedWindow("Frame")
 cv2.setMouseCallback("Frame", mouse_callback)
 
-# while True:
-#     ret, frame = video.read()
-
-#     if not ret:
-#         break
-
-#     for idx, tracker in enumerate(trackers):
-#         success, bbox = tracker.update(frame)
-
-#         if success:
-#             x, y, w, h = int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3])
-#             cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
-#         else:
-#             cv2.putText(frame, f"Lost {idx+1}", (50, 50 * (idx + 1)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
-
-#     if current_box:
-#         x, y, w, h = current_box
-#         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-#     cv2.imshow("Frame", frame)
-
-#     if cv2.waitKey(1) & 0xFF == ord("q"):
-#         break
-
-# video.release()
-# cv2.destroyAllWindows()
-
-max_boxes = 5
-trackers = []
-current_box = None
-
 while True:
     ret, frame = video.read()
 
     if not ret:
         break
-
-    # Remove the oldest tracker if the limit is reached
-    if len(trackers) >= max_boxes:
-        trackers.pop(0)
 
     for idx, tracker in enumerate(trackers):
         success, bbox = tracker.update(frame)

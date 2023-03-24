@@ -32,7 +32,7 @@ def mouse_callback(event, x, y, flags, param):
             trackers.append(second_tracker)
             current_box = None
 
-video = cv2.VideoCapture("C:/Users/מחשב/Desktop/workspace/testvideo.mp4")
+video = cv2.VideoCapture("C:/Users/Assif/Desktop/Workspace/python/idf/tracking-test/testvideo.mp4")
 tracker = cv2.TrackerCSRT_create()
 trackers = [tracker]
 ret, frame = video.read()

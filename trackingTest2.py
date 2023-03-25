@@ -42,18 +42,22 @@ def mouse_callback(event, x, y, flags, param):
             trackers.append(second_tracker)
             current_box = None
 
-tracker = cv2.TrackerCSRT_create()
-trackers = [tracker]
-ret, frame = video.read()
-frame_height, frame_width, _ = frame.shape
-min_roi_size = 10
-max_roi_size = 100
-x = random.randint(0, frame_width - max_roi_size)
-y = random.randint(0, frame_height - max_roi_size)
-w = random.randint(min_roi_size, max_roi_size)
-h = random.randint(min_roi_size, max_roi_size)
-roi = (x, y, w, h)
-ret = tracker.init(frame, roi)
+#adds random box at the start!
+
+# tracker = cv2.TrackerCSRT_create()
+# trackers = [tracker]
+# ret, frame = video.read()
+# frame_height, frame_width, _ = frame.shape
+# min_roi_size = 10
+# max_roi_size = 100
+# x = random.randint(0, frame_width - max_roi_size)
+# y = random.randint(0, frame_height - max_roi_size)
+# w = random.randint(min_roi_size, max_roi_size)
+# h = random.randint(min_roi_size, max_roi_size)
+# roi = (x, y, w, h)
+# ret = tracker.init(frame, roi)
+
+trackers = []
 
 cv2.namedWindow("Frame")
 cv2.setMouseCallback("Frame", mouse_callback)
@@ -63,7 +67,7 @@ while True:
 
     if not ret:
         break
-
+    
     for idx, tracker in enumerate(trackers):
         success, bbox = tracker.update(frame)
 
